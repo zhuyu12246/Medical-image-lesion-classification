@@ -9,19 +9,37 @@ from utils.coral import coral_label_transform, coral_loss
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 BATCH = 32
-LR = 1e-4
+LR = 1e-5
 EPOCHS = 20
 
 # transforms
-transform = transforms.Compose([
+# transform = transforms.Compose([
+#     transforms.ToTensor(),
+#     transforms.Resize((224,224)),
+#     transforms.Normalize(mean=[0.485, 0.456, 0.406],
+#                          std=[0.229, 0.224, 0.225])
+# ])
+
+transform_train = transforms.Compose([
+    transforms.RandomResizedCrop(224, scale=(0.8, 1.0)),
+    transforms.RandomHorizontalFlip(),
+    transforms.RandomVerticalFlip(),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2),
     transforms.ToTensor(),
-    transforms.Resize((224,224)),
-    transforms.Normalize([0.5],[0.5])
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                         std=[0.229, 0.224, 0.225]),
+])
+
+transform_val = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                         std=[0.229, 0.224, 0.225]),
 ])
 
 # load datasets
-train_dataset = RetinaMNIST(split="train", transform=transform, download=True,root='./data/RetinaMNIST')
-val_dataset   = RetinaMNIST(split="val",   transform=transform, download=True,root='./data/RetinaMNIST')
+train_dataset = RetinaMNIST(split="train", transform=transform_train, download=True,root='./data/RetinaMNIST')
+val_dataset   = RetinaMNIST(split="val",   transform=transform_val, download=True,root='./data/RetinaMNIST')
 
 train_loader = DataLoader(train_dataset, batch_size=BATCH, shuffle=True)
 val_loader   = DataLoader(val_dataset,   batch_size=BATCH, shuffle=False)
@@ -30,7 +48,7 @@ num_classes = int(train_dataset.labels.max() + 1)
 
 # model
 model = ResNet18_CORAL(num_classes).to(device)
-optimizer = torch.optim.Adam(model.parameters(), lr=LR)
+optimizer = torch.optim.Adam(model.parameters(), lr=LR, weight_decay=1e-4)
 
 train_losses = []
 val_losses = []

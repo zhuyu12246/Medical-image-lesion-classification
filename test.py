@@ -29,11 +29,12 @@ total = 0
 
 with torch.no_grad():
     for x, y in test_loader:
-        x, y = x.to(device), y.to(device)
+        x, y = x.to(device), y.to(device).squeeze()
         logits = model(x)
         pred = model.predict(logits)
         correct += (pred == y).sum().item()
-        total += len(y)
+        total += y.size(0)
 
 acc = correct / total
-print(f"Test Accuracy = {acc:.4f}")
+# print(f"Test Accuracy = {acc:.4f}")
+print(f"Test Accuracy = {acc*100:.2f}%")   # 保留两位小数 + %
