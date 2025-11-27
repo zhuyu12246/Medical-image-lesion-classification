@@ -1,5 +1,9 @@
 # Lesion Classification
 
+![image-20251127113901223](./assets/image-20251127113901223.png)
+
+![image-20251127113842499](./assets/image-20251127113842499.png)
+
 ![loss_curve_ep20](./assets/loss_curve_ep20.png)
 
 ![confusion_matrix_ep20](./assets/confusion_matrix_ep20.png)
@@ -32,7 +36,7 @@ CORAL is an approach for handling ordinal classification problems by transformin
 
 ## Results
 
-in other:
+in other method:
 ![image-20251127004459898](./assets/image-20251127004459898.png)
 
 This method:
@@ -46,9 +50,3 @@ This method:
 - `utils/coral.py`: Contains CORAL-related label transformation and loss function implementation
 - `test.py`: Testing script
 - `plot_loss.py`: Loss visualization script
-
-## Improvement Directions
-1. Adjust hyperparameters (learning rate, batch size, etc.)
-2. Try different data augmentation strategies
-3. Use more complex model architectures
-4. Implement more advanced regularization techniques

@@ -6,6 +6,15 @@ from medmnist import RetinaMNIST
 from models.resnet18_coral import ResNet18_CORAL
 from utils.coral import coral_label_transform, coral_loss
 
+# RetinaMNIST 特点导致容易过拟合
+#
+# 数据量小：RetinaMNIST 测试集只有几百张图片，训练集也比较小
+#
+# 输入图像信息有限：resize 到 224×224，眼底病变细节有限
+#
+# 网络容量大：ResNet‑18 + CORAL 对小数据集来说，参数量相对大
+#
+# 结果：模型很快在训练集上拟合，但验证集无法跟上。
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 BATCH = 32
