@@ -5,8 +5,10 @@ from medmnist import RetinaMNIST
 
 from models.resnet18_coral import ResNet18_CORAL
 from utils.coral import coral_label_transform, coral_loss
-
+# Implementing vision transformer for classifying 2D biomedical images 这篇论文 准确度是56%已经是很高的了
+# 本方法准确率大概在56%左右 要想获得最高的效果 需要取得loss最低点的模型
 # RetinaMNIST 特点导致容易过拟合
+# 数据不均匀 0和2程度的占了大部分了 其他的病变程度 学习到的特征比较少
 #
 # 数据量小：RetinaMNIST 测试集只有几百张图片，训练集也比较小
 #
